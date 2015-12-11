@@ -5,7 +5,7 @@
 
 typedef struct GUI_elements
 {
-	int elements_count = 0; // number of elements.
+
 } GUI_elements;
 
 #endif
