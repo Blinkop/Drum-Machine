@@ -3,14 +3,18 @@
 
 #include "machineelements.h"
 
-#define SCREEN_WIDTH 1080
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 900
+#define SCREEN_HEIGHT 700
 
-bool DMinitialize(SDL_Window**, SDL_Surface**, GUI_elements*);
-bool loadImageSource(GUI_elements*);
+bool DMinitialize(SDL_Window**, GUI_elements*, SDL_Renderer**, FramesChange*);
+bool loadImageSource(GUI_elements*, SDL_Renderer*, FramesChange*);
+
 void DMclose(SDL_Window**, GUI_elements**);
-SDL_Surface* updatePadButton(Uint8, SDL_Surface*);
-SDL_Texture* loadTexture(char* const, SDL_Window* const);
-void BlitGUI(GUI_elements*, SDL_Surface* const);
+void BlitGUI(GUI_elements*, SDL_Renderer*);
+
+SDL_Texture* updatePadButton(Uint8, SDL_Texture*, SDL_Renderer*, FramesChange*);
+SDL_Texture* loadTexture(char* const, SDL_Renderer*);
+
+SDL_Rect CreateRect(int, int, int, int);
 
 #endif

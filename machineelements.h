@@ -6,27 +6,39 @@
 #define PRESSED 1
 #define UNPRESSED 0
 
+typedef struct DM_channel
+{
+	SDL_Texture* pad;
+	SDL_Rect rect;
+} DM_channel;
+
+typedef struct FramesChange
+{
+	SDL_Texture* pad;
+	SDL_Texture* padPressed;
+} FramesChange;
+
 typedef struct GUI_elements
 {
-	SDL_Surface* pad_1;
-	SDL_Surface* pad_2;
-	SDL_Surface* pad_3;
-	SDL_Surface* pad_4;
-	SDL_Surface* pad_5;
-	SDL_Surface* pad_6;
-	SDL_Surface* pad_7;
-	SDL_Surface* pad_8;
-	SDL_Surface* pad_9;
-	SDL_Surface* pad_10;
-	SDL_Surface* pad_11;
-	SDL_Surface* pad_12;
-	SDL_Surface* pad_13;
-	SDL_Surface* pad_14;
-	SDL_Surface* pad_15;
-	SDL_Surface* pad_16;
-	SDL_Surface* padsFrame;
-	SDL_Surface* functionalFrame;
-	SDL_Surface* channelsFrame;
+	DM_channel pad_1;
+	DM_channel pad_2;
+	DM_channel pad_3;
+	DM_channel pad_4;
+	DM_channel pad_5;
+	DM_channel pad_6;
+	DM_channel pad_7;
+	DM_channel pad_8;
+	DM_channel pad_9;
+	DM_channel pad_10;
+	DM_channel pad_11;
+	DM_channel pad_12;
+	DM_channel pad_13;
+	DM_channel pad_14;
+	DM_channel pad_15;
+	DM_channel pad_16;
+	SDL_Texture* padsFrame;
+	SDL_Texture* functionalFrame;
+	SDL_Texture* channelsFrame;
 } GUI_elements;
 
 enum KeyPressEnum

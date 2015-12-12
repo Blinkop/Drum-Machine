@@ -3,6 +3,6 @@
 
 #include "windowoperations.h"
 
-bool CatchUpEvents(SDL_Window*, SDL_Surface*, GUI_elements*);
+bool CatchUpEvents(SDL_Window*, GUI_elements*, SDL_Renderer*, FramesChange*);
 
 #endif

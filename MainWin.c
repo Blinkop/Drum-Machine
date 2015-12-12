@@ -3,24 +3,25 @@
 
 int main(int argc, char** argv)
 {
-	/*---Global window and surface---*/
+	/*---Global window and renderer---*/
 	SDL_Window* window = NULL;
-	SDL_Surface* screenSurface = NULL;
+	SDL_Renderer* renderer = NULL;
 	/*---Experemental---*/
 	SDL_Surface* current = NULL;
 	bool quitFlag = false;
-	/*---Additional surfaces---*/
-	GUI_elements* gui_elements = malloc(sizeof(GUI_elements));
+	/*---Additional elements---*/
+	GUI_elements* gui_elements = (GUI_elements*)malloc(sizeof(GUI_elements));
+	FramesChange* frames = (FramesChange*)malloc(sizeof(FramesChange));
 	/*---Base variables---*/
 	SDL_Surface* KeyPressedSurface[KEYS_TOTAL];
-	if (!DMinitialize(&window, &screenSurface, gui_elements))
+	if (!DMinitialize(&window, gui_elements, &renderer, frames))
 	{
 		puts("Failed to initialize Drum Machine");
 	}
 	else
 	{
 		SDL_UpdateWindowSurface(window);
-		CatchUpEvents(window, screenSurface, gui_elements);
+		CatchUpEvents(window, gui_elements, renderer, frames);
 	}
 	DMclose(&window, &gui_elements);
 	
