@@ -16,7 +16,27 @@ typedef struct FramesChange
 {
 	SDL_Texture* pad;
 	SDL_Texture* padPressed;
+	SDL_Texture* Record;
+	SDL_Texture* RecordPressed;
+	SDL_Texture* Play;
+	SDL_Texture* PlayPressed;
+	SDL_Texture* Stop;
+	SDL_Texture* StopPressed;
+	SDL_Texture* Pause;
+	SDL_Texture* PausePressed;
+	SDL_Texture* ToStart;
+	SDL_Texture* ToStartPressed;
+	SDL_Texture* Quantize;
+	SDL_Texture* QuantizePressed;
+	SDL_Texture* Clear;
+	SDL_Texture* ClearPressed;
 } FramesChange;
+
+typedef struct DM_Button
+{
+	SDL_Texture* frame;
+	SDL_Rect rect;
+} DM_Button;
 
 typedef struct GUI_elements
 {
@@ -39,30 +59,27 @@ typedef struct GUI_elements
 	SDL_Texture* padsFrame;
 	SDL_Texture* functionalFrame;
 	SDL_Texture* channelsFrame;
+	DM_Button PlayButton;
+	DM_Button StopButton;
+	DM_Button PauseButton;
+	DM_Button ToStartButton;
+	DM_Button RecordButton;
+	DM_Button ClearButton;
+	DM_Button QuantizeButton;
+	
 } GUI_elements;
 
-enum KeyPressEnum
+enum MousePressEnum
 {
-	KEY_PRESS_PLAY_PAUSE,
-	KEY_PRESS_PAD_1,
-	KEY_PRESS_PAD_2,
-	KEY_PRESS_PAD_3,
-	KEY_PRESS_PAD_4,
-	KEY_PRESS_PAD_5,
-	KEY_PRESS_PAD_6,
-	KEY_PRESS_PAD_7,
-	KEY_PRESS_PAD_8,
-	KEY_PRESS_PAD_9,
-	KEY_PRESS_PAD_10,
-	KEY_PRESS_PAD_11,
-	KEY_PRESS_PAD_12,
-	KEY_PRESS_PAD_13,
-	KEY_PRESS_PAD_14,
-	KEY_PRESS_PAD_15,
-	KEY_PRESS_PAD_16,
-	KEY_PRESS_RECORD,
-	KEY_PRESS_STOP,
-	KEYS_TOTAL
+	RECORD_BUTTON,
+	PLAY_BUTTON,
+	PAUSE_BUTTON,
+	STOP_BUTTON,
+	TO_START_BUTTON,
+	QUANTIZE_BUTTON,
+	CLEAR_BUTTON,
+	BUTTONS_TOTAL,
+	NO_PRESS
 };
 
 #endif

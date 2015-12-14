@@ -11,8 +11,9 @@ bool loadImageSource(GUI_elements*, SDL_Renderer*, FramesChange*);
 
 void DMclose(SDL_Window**, GUI_elements**);
 void BlitGUI(GUI_elements*, SDL_Renderer*);
+void NewTextureOnRender(SDL_Renderer*, SDL_Texture*, SDL_Texture*, SDL_Rect);
 
-SDL_Texture* updatePadButton(Uint8, SDL_Texture*, SDL_Renderer*, FramesChange*);
+SDL_Texture* updatePadButton(SDL_Texture*, SDL_Renderer*, SDL_Texture*);
 SDL_Texture* loadTexture(char* const, SDL_Renderer*);
 
 SDL_Rect CreateRect(int, int, int, int);

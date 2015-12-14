@@ -13,7 +13,6 @@ int main(int argc, char** argv)
 	GUI_elements* gui_elements = (GUI_elements*)malloc(sizeof(GUI_elements));
 	FramesChange* frames = (FramesChange*)malloc(sizeof(FramesChange));
 	/*---Base variables---*/
-	SDL_Surface* KeyPressedSurface[KEYS_TOTAL];
 	if (!DMinitialize(&window, gui_elements, &renderer, frames))
 	{
 		puts("Failed to initialize Drum Machine");

@@ -4,5 +4,7 @@
 #include "windowoperations.h"
 
 bool CatchUpEvents(SDL_Window*, GUI_elements*, SDL_Renderer*, FramesChange*);
+bool MouseOnButton(DM_Button);
 
+void Unpress(Uint8, FramesChange*, GUI_elements*, SDL_Renderer*);
 #endif
