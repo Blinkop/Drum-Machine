@@ -4,13 +4,17 @@ bool DMinitialize(SDL_Window** window, GUI_elements* elements, SDL_Renderer** re
 {
 	bool success = true;
 	SDL_Texture* texture = NULL;
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		printf("Failed to load Drum Machine: %s\n", SDL_GetError());
 		success = false;
 	}
 	else
 	{
+		if (Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
+		{
+			printf("Audio init error: %s", Mix_GetError());
+		}
 		*window = SDL_CreateWindow("Drum Machine", SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (*window == NULL)
@@ -63,22 +67,28 @@ bool loadImageSource(GUI_elements* elements, SDL_Renderer* renderer, FramesChang
 	elements->ToStartButton.frame = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\ToStart.bmp"));
 	elements->ClearButton.frame = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Clear.bmp"));
 	elements->QuantizeButton.frame = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Quantize.bmp"));
-	elements->pad_1.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_2.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_3.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_4.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_5.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_6.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_7.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_8.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_9.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_10.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_11.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_12.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_13.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_14.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_15.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
-	elements->pad_16.pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[0].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[1].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[2].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[3].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[4].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[5].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[6].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[7].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[8].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[9].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[10].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[11].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[12].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[13].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[14].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->pad[15].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+
+	/*Test*/
+	elements->pad[0].sound = Mix_LoadWAV("Frames\\XF_Kick_A_001.wav");
+	elements->pad[1].sound = Mix_LoadWAV("Frames\\XF_SnrLayer01.wav");
+	if (elements->pad[1].sound == NULL) printf("KEK: %s", Mix_GetError());
+	/*/Test*/
 	if (elements->padsFrame == NULL)
 	{
 		printf("Texture error: %s\n", SDL_GetError());
@@ -132,53 +142,53 @@ void BlitGUI(GUI_elements* elements, SDL_Renderer* renderer)
 		2 * SCREEN_WIDTH / 3, SCREEN_WIDTH / 3, SCREEN_HEIGHT / 10);
 	/*---OMG GRAPHICS STARTS FROM HERE---*/
 	/*---First line Pads---*/
-	elements->pad_1.rect = CreateRect((padsFrameDstRect.h - padsSpace*5) / 4,
+	elements->pad[0].rect = CreateRect((padsFrameDstRect.h - padsSpace*5) / 4,
 		(padsFrameDstRect.w - padsSpace*5) / 4, padsFrameDstRect.x + padsSpace, padsFrameDstRect.y + padsSpace);
-	elements->pad_2.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4,	(padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 2 * padsSpace + 1 * elements->pad_1.rect.w, padsFrameDstRect.y + padsSpace);
-	elements->pad_3.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 3 * padsSpace + 2 * elements->pad_1.rect.w, padsFrameDstRect.y + padsSpace);
-	elements->pad_4.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 4 * padsSpace + 3 * elements->pad_1.rect.w, padsFrameDstRect.y + padsSpace);
+	elements->pad[1].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4,	(padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 2 * padsSpace + 1 * elements->pad[0].rect.w, padsFrameDstRect.y + padsSpace);
+	elements->pad[2].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 3 * padsSpace + 2 * elements->pad[0].rect.w, padsFrameDstRect.y + padsSpace);
+	elements->pad[3].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 4 * padsSpace + 3 * elements->pad[0].rect.w, padsFrameDstRect.y + padsSpace);
 	/*---Second line Pads---*/
-	elements->pad_5.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4,
+	elements->pad[4].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4,
 		(padsFrameDstRect.w - padsSpace * 5) / 4, padsFrameDstRect.x + padsSpace,
-		padsFrameDstRect.y + 2 * padsSpace + elements->pad_1.rect.h);
-	elements->pad_6.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 2 * padsSpace + 1 * elements->pad_1.rect.w,
-		padsFrameDstRect.y + 2 * padsSpace + elements->pad_1.rect.h);
-	elements->pad_7.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 3 * padsSpace + 2 * elements->pad_1.rect.w,
-		padsFrameDstRect.y + 2 * padsSpace + elements->pad_1.rect.h);
-	elements->pad_8.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 4 * padsSpace + 3 * elements->pad_1.rect.w,
-		padsFrameDstRect.y + 2 * padsSpace + elements->pad_1.rect.h);
+		padsFrameDstRect.y + 2 * padsSpace + elements->pad[0].rect.h);
+	elements->pad[5].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 2 * padsSpace + 1 * elements->pad[0].rect.w,
+		padsFrameDstRect.y + 2 * padsSpace + elements->pad[0].rect.h);
+	elements->pad[6].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 3 * padsSpace + 2 * elements->pad[0].rect.w,
+		padsFrameDstRect.y + 2 * padsSpace + elements->pad[0].rect.h);
+	elements->pad[7].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 4 * padsSpace + 3 * elements->pad[0].rect.w,
+		padsFrameDstRect.y + 2 * padsSpace + elements->pad[0].rect.h);
 	/*---Third line Pads---*/
-	elements->pad_9.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4,
+	elements->pad[8].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4,
 		(padsFrameDstRect.w - padsSpace * 5) / 4, padsFrameDstRect.x + padsSpace,
-		padsFrameDstRect.y + 3 * padsSpace + 2 * elements->pad_1.rect.h);
-	elements->pad_10.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 2 * padsSpace + 1 * elements->pad_1.rect.w,
-		padsFrameDstRect.y + 3 * padsSpace + 2 * elements->pad_1.rect.h);
-	elements->pad_11.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 3 * padsSpace + 2 * elements->pad_1.rect.w,
-		padsFrameDstRect.y + 3 * padsSpace + 2 * elements->pad_1.rect.h);
-	elements->pad_12.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 4 * padsSpace + 3 * elements->pad_1.rect.w,
-		padsFrameDstRect.y + 3 * padsSpace + 2 * elements->pad_1.rect.h);
+		padsFrameDstRect.y + 3 * padsSpace + 2 * elements->pad[0].rect.h);
+	elements->pad[9].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 2 * padsSpace + 1 * elements->pad[0].rect.w,
+		padsFrameDstRect.y + 3 * padsSpace + 2 * elements->pad[0].rect.h);
+	elements->pad[10].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 3 * padsSpace + 2 * elements->pad[0].rect.w,
+		padsFrameDstRect.y + 3 * padsSpace + 2 * elements->pad[0].rect.h);
+	elements->pad[11].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 4 * padsSpace + 3 * elements->pad[0].rect.w,
+		padsFrameDstRect.y + 3 * padsSpace + 2 * elements->pad[0].rect.h);
 	/*---Forth line Pads---*/
-	elements->pad_13.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4,
+	elements->pad[12].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4,
 		(padsFrameDstRect.w - padsSpace * 5) / 4, padsFrameDstRect.x + padsSpace,
-		padsFrameDstRect.y + 4 * padsSpace + 3 * elements->pad_1.rect.h);
-	elements->pad_14.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 2 * padsSpace + 1 * elements->pad_1.rect.w,
-		padsFrameDstRect.y + 4 * padsSpace + 3 * elements->pad_1.rect.h);
-	elements->pad_15.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 3 * padsSpace + 2 * elements->pad_1.rect.w,
-		padsFrameDstRect.y + 4 * padsSpace + 3 * elements->pad_1.rect.h);
-	elements->pad_16.rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
-		padsFrameDstRect.x + 4 * padsSpace + 3 * elements->pad_1.rect.w,
-		padsFrameDstRect.y + 4 * padsSpace + 3 * elements->pad_1.rect.h);
+		padsFrameDstRect.y + 4 * padsSpace + 3 * elements->pad[0].rect.h);
+	elements->pad[13].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 2 * padsSpace + 1 * elements->pad[0].rect.w,
+		padsFrameDstRect.y + 4 * padsSpace + 3 * elements->pad[0].rect.h);
+	elements->pad[14].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 3 * padsSpace + 2 * elements->pad[0].rect.w,
+		padsFrameDstRect.y + 4 * padsSpace + 3 * elements->pad[0].rect.h);
+	elements->pad[15].rect = CreateRect((padsFrameDstRect.h - padsSpace * 5) / 4, (padsFrameDstRect.w - padsSpace * 5) / 4,
+		padsFrameDstRect.x + 4 * padsSpace + 3 * elements->pad[0].rect.w,
+		padsFrameDstRect.y + 4 * padsSpace + 3 * elements->pad[0].rect.h);
 	/*---Buttons---*/
 	elements->StopButton.rect = CreateRect(functionalDstRect.h / 3, ButtonWidth,
 		functionalDstRect.x + ButtonSpace, functionalDstRect.h / 3);
@@ -201,22 +211,22 @@ void BlitGUI(GUI_elements* elements, SDL_Renderer* renderer)
 	SDL_RenderCopy(renderer, elements->RecordButton.frame, 0, &elements->RecordButton.rect);
 	SDL_RenderCopy(renderer, elements->ClearButton.frame, 0, &elements->ClearButton.rect);
 	SDL_RenderCopy(renderer, elements->QuantizeButton.frame, 0, &elements->QuantizeButton.rect);
-	SDL_RenderCopy(renderer, elements->pad_1.pad, 0, &elements->pad_1.rect);
-	SDL_RenderCopy(renderer, elements->pad_2.pad, 0, &elements->pad_2.rect);
-	SDL_RenderCopy(renderer, elements->pad_3.pad, 0, &elements->pad_3.rect);
-	SDL_RenderCopy(renderer, elements->pad_4.pad, 0, &elements->pad_4.rect);
-	SDL_RenderCopy(renderer, elements->pad_5.pad, 0, &elements->pad_5.rect);
-	SDL_RenderCopy(renderer, elements->pad_6.pad, 0, &elements->pad_6.rect);
-	SDL_RenderCopy(renderer, elements->pad_7.pad, 0, &elements->pad_7.rect);
-	SDL_RenderCopy(renderer, elements->pad_8.pad, 0, &elements->pad_8.rect);
-	SDL_RenderCopy(renderer, elements->pad_9.pad, 0, &elements->pad_9.rect);
-	SDL_RenderCopy(renderer, elements->pad_10.pad, 0, &elements->pad_10.rect);
-	SDL_RenderCopy(renderer, elements->pad_11.pad, 0, &elements->pad_11.rect);
-	SDL_RenderCopy(renderer, elements->pad_12.pad, 0, &elements->pad_12.rect);
-	SDL_RenderCopy(renderer, elements->pad_13.pad, 0, &elements->pad_13.rect);
-	SDL_RenderCopy(renderer, elements->pad_14.pad, 0, &elements->pad_14.rect);
-	SDL_RenderCopy(renderer, elements->pad_15.pad, 0, &elements->pad_15.rect);
-	SDL_RenderCopy(renderer, elements->pad_16.pad, 0, &elements->pad_16.rect);
+	SDL_RenderCopy(renderer, elements->pad[0].pad, 0, &elements->pad[0].rect);
+	SDL_RenderCopy(renderer, elements->pad[1].pad, 0, &elements->pad[1].rect);
+	SDL_RenderCopy(renderer, elements->pad[2].pad, 0, &elements->pad[2].rect);
+	SDL_RenderCopy(renderer, elements->pad[3].pad, 0, &elements->pad[3].rect);
+	SDL_RenderCopy(renderer, elements->pad[4].pad, 0, &elements->pad[4].rect);
+	SDL_RenderCopy(renderer, elements->pad[5].pad, 0, &elements->pad[5].rect);
+	SDL_RenderCopy(renderer, elements->pad[6].pad, 0, &elements->pad[6].rect);
+	SDL_RenderCopy(renderer, elements->pad[7].pad, 0, &elements->pad[7].rect);
+	SDL_RenderCopy(renderer, elements->pad[8].pad, 0, &elements->pad[8].rect);
+	SDL_RenderCopy(renderer, elements->pad[9].pad, 0, &elements->pad[9].rect);
+	SDL_RenderCopy(renderer, elements->pad[10].pad, 0, &elements->pad[10].rect);
+	SDL_RenderCopy(renderer, elements->pad[11].pad, 0, &elements->pad[11].rect);
+	SDL_RenderCopy(renderer, elements->pad[12].pad, 0, &elements->pad[12].rect);
+	SDL_RenderCopy(renderer, elements->pad[13].pad, 0, &elements->pad[13].rect);
+	SDL_RenderCopy(renderer, elements->pad[14].pad, 0, &elements->pad[14].rect);
+	SDL_RenderCopy(renderer, elements->pad[15].pad, 0, &elements->pad[15].rect);
 }
 SDL_Rect CreateRect(int h, int w, int x, int y)
 {

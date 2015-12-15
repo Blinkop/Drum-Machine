@@ -81,67 +81,69 @@ bool CatchUpEvents(SDL_Window* window, GUI_elements* elements, SDL_Renderer* ren
 				{
 				case SDLK_1:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_1.pad, renderer, frames->padPressed), 0, &elements->pad_1.rect);
+						updatePadButton(elements->pad[0].pad, renderer, frames->padPressed), 0, &elements->pad[0].rect);
+					Mix_PlayChannel(1, elements->pad[0].sound, 0);//test
 					break;
 				case SDLK_2:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_2.pad, renderer, frames->padPressed), 0, &elements->pad_2.rect);
+						updatePadButton(elements->pad[1].pad, renderer, frames->padPressed), 0, &elements->pad[1].rect);
+					Mix_PlayChannel(2, elements->pad[1].sound, 0);//test
 					break;
 				case SDLK_3:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_3.pad, renderer, frames->padPressed), 0, &elements->pad_3.rect);
+						updatePadButton(elements->pad[2].pad, renderer, frames->padPressed), 0, &elements->pad[2].rect);
 					break;
 				case SDLK_4:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_4.pad, renderer, frames->padPressed), 0, &elements->pad_4.rect);
+						updatePadButton(elements->pad[3].pad, renderer, frames->padPressed), 0, &elements->pad[3].rect);
 					break;
 				case SDLK_q:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_5.pad, renderer, frames->padPressed), 0, &elements->pad_5.rect);
+						updatePadButton(elements->pad[4].pad, renderer, frames->padPressed), 0, &elements->pad[4].rect);
 					break;
 				case SDLK_w:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_6.pad, renderer, frames->padPressed), 0, &elements->pad_6.rect);
+						updatePadButton(elements->pad[5].pad, renderer, frames->padPressed), 0, &elements->pad[5].rect);
 					break;
 				case SDLK_e:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_7.pad, renderer, frames->padPressed), 0, &elements->pad_7.rect);
+						updatePadButton(elements->pad[6].pad, renderer, frames->padPressed), 0, &elements->pad[6].rect);
 					break;
 				case SDLK_r:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_8.pad, renderer, frames->padPressed), 0, &elements->pad_8.rect);
+						updatePadButton(elements->pad[7].pad, renderer, frames->padPressed), 0, &elements->pad[7].rect);
 					break;
 				case SDLK_a:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_9.pad, renderer, frames->padPressed), 0, &elements->pad_9.rect);
+						updatePadButton(elements->pad[8].pad, renderer, frames->padPressed), 0, &elements->pad[8].rect);
 					break;
 				case SDLK_s:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_10.pad, renderer, frames->padPressed), 0, &elements->pad_10.rect);
+						updatePadButton(elements->pad[9].pad, renderer, frames->padPressed), 0, &elements->pad[9].rect);
 					break;
 				case SDLK_d:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_11.pad, renderer, frames->padPressed), 0, &elements->pad_11.rect);
+						updatePadButton(elements->pad[10].pad, renderer, frames->padPressed), 0, &elements->pad[10].rect);
 					break;
 				case SDLK_f:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_12.pad, renderer, frames->padPressed), 0, &elements->pad_12.rect);
+						updatePadButton(elements->pad[11].pad, renderer, frames->padPressed), 0, &elements->pad[11].rect);
 					break;
 				case SDLK_z:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_13.pad, renderer, frames->padPressed), 0, &elements->pad_13.rect);
+						updatePadButton(elements->pad[12].pad, renderer, frames->padPressed), 0, &elements->pad[12].rect);
 					break;
 				case SDLK_x:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_14.pad, renderer, frames->padPressed), 0, &elements->pad_14.rect);
+						updatePadButton(elements->pad[13].pad, renderer, frames->padPressed), 0, &elements->pad[13].rect);
 					break;
 				case SDLK_c:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_15.pad, renderer, frames->padPressed), 0, &elements->pad_15.rect);
+						updatePadButton(elements->pad[14].pad, renderer, frames->padPressed), 0, &elements->pad[14].rect);
 					break;
 				case SDLK_v:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_16.pad, renderer, frames->padPressed), 0, &elements->pad_16.rect);
+						updatePadButton(elements->pad[15].pad, renderer, frames->padPressed), 0, &elements->pad[15].rect);
 					break;
 				default:
 					break;
@@ -153,71 +155,75 @@ bool CatchUpEvents(SDL_Window* window, GUI_elements* elements, SDL_Renderer* ren
 				{
 				case SDLK_1:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_1.pad, renderer, frames->pad), 0, &elements->pad_1.rect);
+						updatePadButton(elements->pad[0].pad, renderer, frames->pad), 0, &elements->pad[0].rect);
 					break;
 				case SDLK_2:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_2.pad, renderer, frames->pad), 0, &elements->pad_2.rect);
+						updatePadButton(elements->pad[1].pad, renderer, frames->pad), 0, &elements->pad[1].rect);
 					break;
 				case SDLK_3:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_3.pad, renderer, frames->pad), 0, &elements->pad_3.rect);
+						updatePadButton(elements->pad[2].pad, renderer, frames->pad), 0, &elements->pad[2].rect);
 					break;
 				case SDLK_4:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_4.pad, renderer, frames->pad), 0, &elements->pad_4.rect);
+						updatePadButton(elements->pad[3].pad, renderer, frames->pad), 0, &elements->pad[3].rect);
 					break;
 				case SDLK_q:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_5.pad, renderer, frames->pad), 0, &elements->pad_5.rect);
+						updatePadButton(elements->pad[4].pad, renderer, frames->pad), 0, &elements->pad[4].rect);
 					break;
 				case SDLK_w:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_6.pad, renderer, frames->pad), 0, &elements->pad_6.rect);
+						updatePadButton(elements->pad[5].pad, renderer, frames->pad), 0, &elements->pad[5].rect);
 					break;
 				case SDLK_e:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_7.pad, renderer, frames->pad), 0, &elements->pad_7.rect);
+						updatePadButton(elements->pad[6].pad, renderer, frames->pad), 0, &elements->pad[6].rect);
 					break;
 				case SDLK_r:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_8.pad, renderer, frames->pad), 0, &elements->pad_8.rect);
+						updatePadButton(elements->pad[7].pad, renderer, frames->pad), 0, &elements->pad[7].rect);
 					break;
 				case SDLK_a:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_9.pad, renderer, frames->pad), 0, &elements->pad_9.rect);
+						updatePadButton(elements->pad[8].pad, renderer, frames->pad), 0, &elements->pad[8].rect);
 					break;
 				case SDLK_s:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_10.pad, renderer, frames->pad), 0, &elements->pad_10.rect);
+						updatePadButton(elements->pad[9].pad, renderer, frames->pad), 0, &elements->pad[9].rect);
 					break;
 				case SDLK_d:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_11.pad, renderer, frames->pad), 0, &elements->pad_11.rect);
+						updatePadButton(elements->pad[10].pad, renderer, frames->pad), 0, &elements->pad[10].rect);
 					break;
 				case SDLK_f:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_12.pad, renderer, frames->pad), 0, &elements->pad_12.rect);
+						updatePadButton(elements->pad[11].pad, renderer, frames->pad), 0, &elements->pad[11].rect);
 					break;
 				case SDLK_z:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_13.pad, renderer, frames->pad), 0, &elements->pad_13.rect);
+						updatePadButton(elements->pad[12].pad, renderer, frames->pad), 0, &elements->pad[12].rect);
 					break;
 				case SDLK_x:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_14.pad, renderer, frames->pad), 0, &elements->pad_14.rect);
+						updatePadButton(elements->pad[13].pad, renderer, frames->pad), 0, &elements->pad[13].rect);
 					break;
 				case SDLK_c:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_15.pad, renderer, frames->pad), 0, &elements->pad_15.rect);
+						updatePadButton(elements->pad[14].pad, renderer, frames->pad), 0, &elements->pad[14].rect);
 					break;
 				case SDLK_v:
 					SDL_RenderCopy(renderer,
-						updatePadButton(elements->pad_16.pad, renderer, frames->pad), 0, &elements->pad_16.rect);
+						updatePadButton(elements->pad[15].pad, renderer, frames->pad), 0, &elements->pad[15].rect);
 					break;
 				default:
 					break;
 				}
+			}
+			else if (eventer.type == SDL_DROPFILE)
+			{
+				
 			}
 			SDL_RenderPresent(renderer);
 		}
@@ -226,13 +232,17 @@ bool CatchUpEvents(SDL_Window* window, GUI_elements* elements, SDL_Renderer* ren
 }
 bool MouseOnButton(DM_Button button)
 {
+	return MouseOnRect(button.rect);
+}
+bool MouseOnRect(SDL_Rect rect)
+{
 	int x, y;
 	bool inside = true;
 	SDL_GetMouseState(&x, &y);
-	if (x < button.rect.x) inside = false;
-	else if (x >(button.rect.x + button.rect.w)) inside = false;
-	else if (y < button.rect.y) inside = false;
-	else if (y > (button.rect.y + button.rect.h)) inside = false;
+	if (x < rect.x) inside = false;
+	else if (x >(rect.x + rect.w)) inside = false;
+	else if (y < rect.y) inside = false;
+	else if (y >(rect.y + rect.h)) inside = false;
 
 	return inside;
 }

@@ -10,6 +10,7 @@ typedef struct DM_channel
 {
 	SDL_Texture* pad;
 	SDL_Rect rect;
+	Mix_Chunk* sound;
 } DM_channel;
 
 typedef struct FramesChange
@@ -40,7 +41,7 @@ typedef struct DM_Button
 
 typedef struct GUI_elements
 {
-	DM_channel pad_1;
+	/*DM_channel pad_1;
 	DM_channel pad_2;
 	DM_channel pad_3;
 	DM_channel pad_4;
@@ -55,7 +56,8 @@ typedef struct GUI_elements
 	DM_channel pad_13;
 	DM_channel pad_14;
 	DM_channel pad_15;
-	DM_channel pad_16;
+	DM_channel pad_16;*/
+	DM_channel pad[16];
 	SDL_Texture* padsFrame;
 	SDL_Texture* functionalFrame;
 	SDL_Texture* channelsFrame;
