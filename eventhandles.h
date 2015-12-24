@@ -6,6 +6,7 @@
 bool CatchUpEvents(SDL_Window*, GUI_elements*, SDL_Renderer*, FramesChange*);
 bool MouseOnButton(DM_Button);
 bool MouseOnRect(SDL_Rect);
+bool MouseOnPad(DM_channel);
 
 void Unpress(Uint8, FramesChange*, GUI_elements*, SDL_Renderer*);
 #endif

@@ -41,22 +41,6 @@ typedef struct DM_Button
 
 typedef struct GUI_elements
 {
-	/*DM_channel pad_1;
-	DM_channel pad_2;
-	DM_channel pad_3;
-	DM_channel pad_4;
-	DM_channel pad_5;
-	DM_channel pad_6;
-	DM_channel pad_7;
-	DM_channel pad_8;
-	DM_channel pad_9;
-	DM_channel pad_10;
-	DM_channel pad_11;
-	DM_channel pad_12;
-	DM_channel pad_13;
-	DM_channel pad_14;
-	DM_channel pad_15;
-	DM_channel pad_16;*/
 	DM_channel pad[16];
 	SDL_Texture* padsFrame;
 	SDL_Texture* functionalFrame;
@@ -68,7 +52,7 @@ typedef struct GUI_elements
 	DM_Button RecordButton;
 	DM_Button ClearButton;
 	DM_Button QuantizeButton;
-	
+	TTF_Font* barClock;
 } GUI_elements;
 
 enum MousePressEnum

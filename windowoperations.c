@@ -84,11 +84,11 @@ bool loadImageSource(GUI_elements* elements, SDL_Renderer* renderer, FramesChang
 	elements->pad[14].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
 	elements->pad[15].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
 
-	/*Test*/
-	elements->pad[0].sound = Mix_LoadWAV("Frames\\XF_Kick_A_001.wav");
-	elements->pad[1].sound = Mix_LoadWAV("Frames\\XF_SnrLayer01.wav");
-	if (elements->pad[1].sound == NULL) printf("KEK: %s", Mix_GetError());
-	/*/Test*/
+	for (int i = 0; i < 16; i++)
+	{
+		elements->pad[i].sound = NULL;
+	}
+
 	if (elements->padsFrame == NULL)
 	{
 		printf("Texture error: %s\n", SDL_GetError());

@@ -2,6 +2,7 @@
 #define _WINDOWOPERATIONS_H_
 
 #include "machineelements.h"
+#include <SDL_ttf.h>
 
 #define SCREEN_WIDTH 900
 #define SCREEN_HEIGHT 700

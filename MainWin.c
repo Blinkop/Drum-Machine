@@ -1,5 +1,5 @@
 #include "eventhandles.h"
-#include <SDL_mixer.h>
+#include "timelist.h"
 
 int main(int argc, char** argv)
 {
@@ -23,6 +23,6 @@ int main(int argc, char** argv)
 		CatchUpEvents(window, gui_elements, renderer, frames);
 	}
 	DMclose(&window, &gui_elements);
-	
+
 	return 0;
 }
