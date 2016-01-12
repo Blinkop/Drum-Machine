@@ -15,6 +15,10 @@ bool DMinitialize(SDL_Window** window, GUI_elements* elements, SDL_Renderer** re
 		{
 			printf("Audio init error: %s", Mix_GetError());
 		}
+		if (TTF_Init() != 0)
+		{
+			printf("TTF Failed: %s", TTF_GetError());
+		}
 		*window = SDL_CreateWindow("Drum Machine", SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (*window == NULL)
@@ -83,6 +87,7 @@ bool loadImageSource(GUI_elements* elements, SDL_Renderer* renderer, FramesChang
 	elements->pad[13].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
 	elements->pad[14].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
 	elements->pad[15].pad = SDL_CreateTextureFromSurface(renderer, SDL_LoadBMP("Frames\\Pad.bmp"));
+	elements->barClock.font = TTF_OpenFont("Frames\\Caviar-Dreams\\CaviarDreams.ttf", 28);
 
 	for (int i = 0; i < 16; i++)
 	{
@@ -202,6 +207,11 @@ void BlitGUI(GUI_elements* elements, SDL_Renderer* renderer)
 		elements->RecordButton.rect.x + ButtonWidth + ButtonSpace, functionalDstRect.h / 3);
 	elements->QuantizeButton.rect = CreateRect(functionalDstRect.h / 3, ButtonWidth,
 		SCREEN_WIDTH - ButtonWidth - ButtonWidth, functionalDstRect.h / 3);
+	/*---TTF---*/
+	elements->barClock.rect = CreateRect(SCREEN_HEIGHT / 10,
+		SCREEN_WIDTH / 8, elements->ClearButton.rect.x + ButtonWidth + 2 * ButtonSpace, 0);
+	elements->barClock.color = CreateColor(0, 0, 0, 255);
+	elements->barClock.bar_clock = NULL;
 	
 	SDL_RenderCopy(renderer, elements->functionalFrame, 0, &functionalDstRect);
 	SDL_RenderCopy(renderer, elements->padsFrame, 0, &padsFrameDstRect);
@@ -211,6 +221,8 @@ void BlitGUI(GUI_elements* elements, SDL_Renderer* renderer)
 	SDL_RenderCopy(renderer, elements->RecordButton.frame, 0, &elements->RecordButton.rect);
 	SDL_RenderCopy(renderer, elements->ClearButton.frame, 0, &elements->ClearButton.rect);
 	SDL_RenderCopy(renderer, elements->QuantizeButton.frame, 0, &elements->QuantizeButton.rect);
+	SDL_RenderCopy(renderer, SDL_CreateTextureFromSurface(renderer,
+		TTF_RenderText_Solid(elements->barClock.font, "0 : 00 : 00", elements->barClock.color)), 0, &elements->barClock.rect);
 	SDL_RenderCopy(renderer, elements->pad[0].pad, 0, &elements->pad[0].rect);
 	SDL_RenderCopy(renderer, elements->pad[1].pad, 0, &elements->pad[1].rect);
 	SDL_RenderCopy(renderer, elements->pad[2].pad, 0, &elements->pad[2].rect);
@@ -237,7 +249,29 @@ SDL_Rect CreateRect(int h, int w, int x, int y)
 	rect.y = y;
 	return rect;
 }
+SDL_Color CreateColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha)
+{
+	SDL_Color colour;
+	colour.a = alpha;
+	colour.r = red;
+	colour.g = green;
+	colour.b = blue;
+	return colour;
+}
 void NewTextureOnRender(SDL_Renderer* rend, SDL_Texture* src, SDL_Texture* dst, SDL_Rect rect)
 {
 	SDL_RenderCopy(rend, updatePadButton(src, rend, dst), 0, &rect);
+}
+void updateTimeTTF(SDL_Renderer* renderer, GUI_elements* elements, TimeLapse* lapse)
+{
+	/*SDL_Surface* surface;
+	SDL_DestroyTexture(elements->barClock.bar_clock);*/
+	char* TIME = (char*)calloc(12, sizeof(char));
+	updateTime(lapse, TIME, elements->bpm_control.bpm_value);
+	/*surface = TTF_RenderText_Solid(elements->barClock.font, TIME, elements->barClock.color);
+	elements->barClock.bar_clock = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_RenderCopy(renderer, elements->barClock.bar_clock, 0, &elements->barClock.rect);
+	SDL_FreeSurface(surface);*/
+	printf("TIME: %s\n", TIME);
+	free(TIME);
 }

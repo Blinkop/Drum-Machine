@@ -58,7 +58,7 @@ void push_time(t_list** list, uint32_t time)
 {
 	t_list* local = *list;
 	uint32_t i = 0;
-	while (local->time <= time)
+	while (local != NULL && local->time <= time)
 	{
 		local = local->next;
 		i++;

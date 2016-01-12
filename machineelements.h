@@ -13,6 +13,14 @@ typedef struct DM_channel
 	Mix_Chunk* sound;
 } DM_channel;
 
+typedef struct Label
+{
+	SDL_Texture* bar_clock;
+	TTF_Font* font;
+	SDL_Rect rect;
+	SDL_Color color;
+} Label;
+
 typedef struct FramesChange
 {
 	SDL_Texture* pad;
@@ -39,6 +47,12 @@ typedef struct DM_Button
 	SDL_Rect rect;
 } DM_Button;
 
+typedef struct DM_BPM
+{
+	SDL_Rect rect;
+	Uint16 bpm_value;
+} DM_BPM;
+
 typedef struct GUI_elements
 {
 	DM_channel pad[16];
@@ -52,7 +66,8 @@ typedef struct GUI_elements
 	DM_Button RecordButton;
 	DM_Button ClearButton;
 	DM_Button QuantizeButton;
-	TTF_Font* barClock;
+	DM_BPM bpm_control;
+	Label barClock;
 } GUI_elements;
 
 enum MousePressEnum

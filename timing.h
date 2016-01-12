@@ -7,6 +7,7 @@ typedef struct TimeLapse
 {
 	bool started;
 	bool paused;
+	bool OnRecord;
 	Uint8 beat;
 	Uint8 step;
 	Uint8 tick;

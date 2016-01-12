@@ -1,32 +1,47 @@
 #include "eventhandles.h"
-#include "machinefunctional.h"
-#include "timing.h"
-#include "timelist.h"
 
 bool CatchUpEvents(SDL_Window* window, GUI_elements* elements, SDL_Renderer* renderer, FramesChange* frames)
 {
 	char* filepath;
 	Uint8 id;
-	SDL_Color bar_color = { 0, 0, 0, 0 };
 	/*---bool variables---*/
 	bool success = true;
 	bool IQUIT = false;
-	bool OnRecord = false;
 	/*---Counters---*/
 	Uint8 Button_pressed = NO_PRESS;
 	/*---TIME---*/
-	TimeLapse time;
-	time.started = false;
-	time.paused = false;
+	TimeLapse* time = (TimeLapse*)calloc(1, sizeof(TimeLapse));
+	time->started = false;
+	time->paused = false;
+	time->OnRecord = false;
+	t_list* recorded_time[16];
+	elements->bpm_control.bpm_value = 120;
 	/*---Events---*/
 	SDL_Event eventer;
 
+	TimeThread* time_thread = (TimeThread*)malloc(sizeof(TimeThread));
+	time_thread->elements = elements;
+	time_thread->lapse = time;
+	time_thread->renderer = renderer;
 	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 	Mix_AllocateChannels(17);
+	for (uint8_t i = 0; i < 16; ++i)
+		recorded_time[i] = NULL;
+	/*---Test---*/
+	PlayThread* playThread = (PlayThread*)malloc(sizeof(PlayThread));
+	playThread->elements = elements;
+	playThread->id = 0;
+	playThread->lapse = time;
+	playThread->list = &recorded_time[0];
+	playThread->renderer = renderer;
+	playThread->frames = frames;
+	/*---Test end---*/
+	/*---Threads---*/
+	SDL_CreateThread(timerStart, "Timer", (void*)time_thread);
 	while (!IQUIT)
 	{
-		id = -1;
-		while (SDL_PollEvent(&eventer) != 0)
+		id = -1;		
+		if (SDL_WaitEvent(&eventer))
 		{
 			if (eventer.type == SDL_QUIT)
 				IQUIT = true;
@@ -35,84 +50,86 @@ bool CatchUpEvents(SDL_Window* window, GUI_elements* elements, SDL_Renderer* ren
 				switch (eventer.key.keysym.sym)
 				{
 				case SDLK_1:
+					if (time->OnRecord && time->started)
+						push_time(&recorded_time[0], getCurrentTime(time, elements->bpm_control.bpm_value));
+					Mix_PlayChannel(1, elements->pad[0].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[0].pad, renderer, frames->padPressed), 0, &elements->pad[0].rect);
-					Mix_PlayChannel(1, elements->pad[0].sound, 0);
 					break;
 				case SDLK_2:
+					Mix_PlayChannel(2, elements->pad[1].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[1].pad, renderer, frames->padPressed), 0, &elements->pad[1].rect);
-					Mix_PlayChannel(2, elements->pad[1].sound, 0);
 					break;
 				case SDLK_3:
+					Mix_PlayChannel(3, elements->pad[2].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[2].pad, renderer, frames->padPressed), 0, &elements->pad[2].rect);
-					Mix_PlayChannel(3, elements->pad[2].sound, 0);
 					break;
 				case SDLK_4:
+					Mix_PlayChannel(4, elements->pad[3].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[3].pad, renderer, frames->padPressed), 0, &elements->pad[3].rect);
-					Mix_PlayChannel(4, elements->pad[3].sound, 0);
 					break;
 				case SDLK_q:
+					Mix_PlayChannel(5, elements->pad[4].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[4].pad, renderer, frames->padPressed), 0, &elements->pad[4].rect);
-					Mix_PlayChannel(5, elements->pad[4].sound, 0);
 					break;
 				case SDLK_w:
+					Mix_PlayChannel(6, elements->pad[5].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[5].pad, renderer, frames->padPressed), 0, &elements->pad[5].rect);
-					Mix_PlayChannel(6, elements->pad[5].sound, 0);
 					break;
 				case SDLK_e:
+					Mix_PlayChannel(7, elements->pad[6].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[6].pad, renderer, frames->padPressed), 0, &elements->pad[6].rect);
-					Mix_PlayChannel(7, elements->pad[6].sound, 0);
 					break;
 				case SDLK_r:
+					Mix_PlayChannel(8, elements->pad[7].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[7].pad, renderer, frames->padPressed), 0, &elements->pad[7].rect);
-					Mix_PlayChannel(8, elements->pad[7].sound, 0);
 					break;
 				case SDLK_a:
+					Mix_PlayChannel(9, elements->pad[8].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[8].pad, renderer, frames->padPressed), 0, &elements->pad[8].rect);
-					Mix_PlayChannel(9, elements->pad[8].sound, 0);
 					break;
 				case SDLK_s:
+					Mix_PlayChannel(10, elements->pad[9].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[9].pad, renderer, frames->padPressed), 0, &elements->pad[9].rect);
-					Mix_PlayChannel(10, elements->pad[9].sound, 0);
 					break;
 				case SDLK_d:
+					Mix_PlayChannel(11, elements->pad[10].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[10].pad, renderer, frames->padPressed), 0, &elements->pad[10].rect);
-					Mix_PlayChannel(11, elements->pad[10].sound, 0);
 					break;
 				case SDLK_f:
+					Mix_PlayChannel(12, elements->pad[11].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[11].pad, renderer, frames->padPressed), 0, &elements->pad[11].rect);
-					Mix_PlayChannel(12, elements->pad[11].sound, 0);
 					break;
 				case SDLK_z:
+					Mix_PlayChannel(13, elements->pad[12].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[12].pad, renderer, frames->padPressed), 0, &elements->pad[12].rect);
-					Mix_PlayChannel(13, elements->pad[12].sound, 0);
 					break;
 				case SDLK_x:
+					Mix_PlayChannel(14, elements->pad[13].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[13].pad, renderer, frames->padPressed), 0, &elements->pad[13].rect);
-					Mix_PlayChannel(14, elements->pad[13].sound, 0);
 					break;
 				case SDLK_c:
+					Mix_PlayChannel(15, elements->pad[14].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[14].pad, renderer, frames->padPressed), 0, &elements->pad[14].rect);
-					Mix_PlayChannel(15, elements->pad[14].sound, 0);
 					break;
 				case SDLK_v:
+					Mix_PlayChannel(16, elements->pad[15].sound, 0);
 					SDL_RenderCopy(renderer,
 						updatePadButton(elements->pad[15].pad, renderer, frames->padPressed), 0, &elements->pad[15].rect);
-					Mix_PlayChannel(16, elements->pad[15].sound, 0);
 					break;
 				default:
 					break;
@@ -194,27 +211,31 @@ bool CatchUpEvents(SDL_Window* window, GUI_elements* elements, SDL_Renderer* ren
 			{
 				if (MouseOnButton(elements->RecordButton))
 				{
-					if (!OnRecord)
+					if (!time->OnRecord)
 					{
 						NewTextureOnRender(renderer, elements->RecordButton.frame,
 							frames->RecordPressed, elements->RecordButton.rect);
-						OnRecord = true;
+						time->OnRecord = true;
 					}
 					else
 					{
 						NewTextureOnRender(renderer, elements->RecordButton.frame,
 							frames->Record, elements->RecordButton.rect);
-						OnRecord = false;
+						time->OnRecord = false;
 					}
 				}
 				else if (MouseOnButton(elements->PlayButton))
 				{
+					Play(time);
+					/*SDL_Thread* play_thread = */SDL_CreateThread(PlayChannel, "Test play", (void*)playThread);
 					NewTextureOnRender(renderer, elements->PlayButton.frame,
 						frames->PlayPressed, elements->PlayButton.rect);
 					Button_pressed = PLAY_BUTTON;
 				}
 				else if (MouseOnButton(elements->StopButton))
 				{
+					Stop(time);
+					
 					NewTextureOnRender(renderer, elements->StopButton.frame,
 						frames->StopPressed, elements->StopButton.rect);
 					Button_pressed = STOP_BUTTON;
