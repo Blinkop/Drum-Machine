@@ -227,7 +227,7 @@ bool CatchUpEvents(SDL_Window* window, GUI_elements* elements, SDL_Renderer* ren
 				else if (MouseOnButton(elements->PlayButton))
 				{
 					Play(time);
-					/*SDL_Thread* play_thread = */SDL_CreateThread(PlayChannel, "Test play", (void*)playThread);
+					SDL_CreateThread(PlayChannel, "Test play", (void*)playThread);
 					NewTextureOnRender(renderer, elements->PlayButton.frame,
 						frames->PlayPressed, elements->PlayButton.rect);
 					Button_pressed = PLAY_BUTTON;
@@ -235,7 +235,7 @@ bool CatchUpEvents(SDL_Window* window, GUI_elements* elements, SDL_Renderer* ren
 				else if (MouseOnButton(elements->StopButton))
 				{
 					Stop(time);
-					
+					/*Thread pause here*/
 					NewTextureOnRender(renderer, elements->StopButton.frame,
 						frames->StopPressed, elements->StopButton.rect);
 					Button_pressed = STOP_BUTTON;

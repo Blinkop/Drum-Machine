@@ -16,7 +16,11 @@ void push_after(t_list** list, uint32_t time, uint32_t index)
 		return;
 	}
 	if (index > size) return;
-	if (index == size)
+	if (index == 0)
+	{
+		push_front(list, time);
+	}
+	else if (index == size)
 	{
 		push_back(list, time);
 	}
@@ -39,7 +43,7 @@ void push_back(t_list** list, uint32_t time)
 	if (*list == NULL)
 	{
 		*list = create(time);
-		(*list)->next = NULL;		
+		(*list)->next = NULL;
 	}
 	if ((*list)->next == NULL)
 	{
@@ -90,7 +94,7 @@ uint32_t getTimeValue(t_list* list, uint32_t index)
 {
 	uint32_t i;
 	t_list* link = list;
-	for (i = 0; i < index - 1; i++)
+	for (i = 0; i < index; ++i)
 	{
 		link = link->next;
 	}
