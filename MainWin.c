@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 	/*---Base variables---*/
 	if (!DMinitialize(&window, gui_elements, &renderer, frames))
 	{
-		puts("Failed to initialize Drum Machine");
+		fputs("Failed to initialize Drum Machine", stderr);
 	}
 	else
 	{
@@ -22,6 +22,5 @@ int main(int argc, char** argv)
 		CatchUpEvents(window, gui_elements, renderer, frames);
 	}
 	DMclose(&window, &gui_elements);
-
 	return 0;
 }

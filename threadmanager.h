@@ -16,10 +16,17 @@ typedef struct PlayThread
 	GUI_elements* elements;
 	TimeLapse* lapse;
 	t_list** list;
-	Uint8 id;
 	SDL_Renderer* renderer;
 	FramesChange* frames;
 } PlayThread;
+
+typedef struct PressDelay
+{
+	Uint8 id;
+	SDL_Renderer* renderer;
+	GUI_elements* elements;
+	FramesChange* frames;
+} PressDelay;
 
 enum TimeSignals
 {
@@ -28,7 +35,9 @@ enum TimeSignals
 	ON_PLAY
 };
 
+int KappaForPress(PressDelay* data);
 int timerStart(TimeThread* data);
 int PlayChannel(PlayThread* data);
+void PlayMap(SDL_Thread** thread, PlayThread* playThread);
 
 #endif

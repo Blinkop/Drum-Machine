@@ -51,14 +51,18 @@ typedef struct DM_BPM
 {
 	SDL_Rect rect;
 	Uint16 bpm_value;
+	SDL_Texture* BPMtexture;
 } DM_BPM;
+
+typedef struct Frame
+{
+	SDL_Texture* frame;
+	SDL_Rect rect;
+} Frame;
 
 typedef struct GUI_elements
 {
 	DM_channel pad[16];
-	SDL_Texture* padsFrame;
-	SDL_Texture* functionalFrame;
-	SDL_Texture* channelsFrame;
 	DM_Button PlayButton;
 	DM_Button StopButton;
 	DM_Button PauseButton;
@@ -66,6 +70,10 @@ typedef struct GUI_elements
 	DM_Button RecordButton;
 	DM_Button ClearButton;
 	DM_Button QuantizeButton;
+	Frame padsFrame;
+	Frame functionalFrame;
+	Frame channelsFrame;
+	Frame backBround;
 	DM_BPM bpm_control;
 	Label barClock;
 } GUI_elements;
@@ -81,6 +89,10 @@ enum MousePressEnum
 	CLEAR_BUTTON,
 	BUTTONS_TOTAL,
 	NO_PRESS
+};
+enum KeyPressEnum
+{
+	
 };
 
 #endif

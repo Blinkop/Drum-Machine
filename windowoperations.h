@@ -13,9 +13,12 @@ void DMclose(SDL_Window**, GUI_elements**);
 void BlitGUI(GUI_elements*, SDL_Renderer*);
 void NewTextureOnRender(SDL_Renderer*, SDL_Texture*, SDL_Texture*, SDL_Rect);
 void updateTimeTTF(SDL_Renderer*, GUI_elements*, TimeLapse*);
+void changeBPMTTF(SDL_Renderer*, GUI_elements*);
+void UpdateScreen(SDL_Renderer*, GUI_elements*);
 
-SDL_Texture* updatePadButton(SDL_Texture*, SDL_Renderer*, SDL_Texture*);
+SDL_Texture* updatePadButton(SDL_Renderer*, SDL_Texture*);
 SDL_Texture* loadTexture(char* const, SDL_Renderer*);
+SDL_Texture* loadTextureBMP(char* const, SDL_Renderer*);
 
 SDL_Rect CreateRect(int, int, int, int);
 SDL_Color CreateColor(Uint8, Uint8, Uint8, Uint8);

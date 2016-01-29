@@ -15,17 +15,27 @@ void Stop(TimeLapse* lapse)
 	lapse->startedTime = 0;
 	lapse->pausedTime = 0;
 }
-void ToStart()
+void ToStart(TimeLapse* lapse)
 {
-
+	Stop(lapse);
+	Play(lapse);
 }
-void Quantize()
+void Quantize(t_list* list)
 {
-
+	t_list* local = list;
+	while (local)
+	{
+		local->time.tick = 0;
+		local = local->next;
+	}
 }
 void Record()
 {
 
+}
+void Clear(t_list** list)
+{
+	TimeDelete(list);
 }
 char* updateTime(TimeLapse* time, char* buf, Uint16 BPM)
 {

@@ -9,5 +9,8 @@ bool MouseOnButton(DM_Button);
 bool MouseOnRect(SDL_Rect);
 bool MouseOnPad(DM_channel);
 
+Uint64 keyTransform(SDL_Keycode);
+
 void Unpress(Uint8, FramesChange*, GUI_elements*, SDL_Renderer*);
+void changeBPM(GUI_elements*, SDL_Keycode);
 #endif
